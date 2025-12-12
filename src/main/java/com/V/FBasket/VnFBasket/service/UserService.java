@@ -1,5 +1,14 @@
 package com.V.FBasket.VnFBasket.service;
 
-public class UserService {
+import java.util.List;
+
+import com.V.FBasket.VnFBasket.model.User;
+
+public interface UserService {
+    User getUserById(Long id);
+    List<User> getAllUsers();
+    User createUser(User user);
+    User updateUser(Long id, User user);
+    void deleteUser(Long id);
     
-}
+} 
