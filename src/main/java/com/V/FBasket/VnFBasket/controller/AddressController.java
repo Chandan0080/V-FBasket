@@ -1,6 +1,7 @@
 package com.V.FBasket.VnFBasket.controller;
 
 import com.V.FBasket.VnFBasket.model.Address;
+import com.V.FBasket.VnFBasket.model.User;
 import com.V.FBasket.VnFBasket.serviceImpl.AddressServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,9 @@ public class AddressController {
     @Autowired
     private AddressServiceImpl addressService;
 
-    @PostMapping("/address")
-    public ResponseEntity<Address> addAddress(@RequestBody Address address) {
-        Address savedAddress = addressService.addAddress(address, address.getUser().getUserId());
+    @PostMapping("user/{userId}/address")
+    public ResponseEntity<Address> addAddress(@PathVariable Long userId, @RequestBody Address address) {
+        Address savedAddress = addressService.addAddress(userId, address);
         if(savedAddress != null) {
             return new ResponseEntity<>(address, HttpStatus.CREATED);
         }
@@ -26,16 +27,16 @@ public class AddressController {
         }
     }
 
-    @GetMapping("/address/user/{userId}")
-    public ResponseEntity<List<Address>> getAllAddressesByUserID(@PathVariable long userId) {
-        List<Address> addressList = addressService.getAllAddressesByUserID(userId);
-        if(addressList != null) {
-            return new ResponseEntity<>(addressList, HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @GetMapping("/address/user/{userId}")
+//    public ResponseEntity<List<Address>> getAllAddressesByUserID(@PathVariable long userId) {
+//        List<Address> addressList = addressService.getAllAddressesByUserID(userId);
+//        if(addressList != null) {
+//            return new ResponseEntity<>(addressList, HttpStatus.OK);
+//        }
+//        else{
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @GetMapping("/address/{addressId}")
     public ResponseEntity<Address> getAddressById(@PathVariable long addressId) {
