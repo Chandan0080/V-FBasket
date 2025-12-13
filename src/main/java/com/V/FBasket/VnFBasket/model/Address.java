@@ -19,7 +19,7 @@ public class Address {
     private String city;
     private String state;
     private String pinCode;
-    private boolean isDefault;
+    private Boolean isDefault;
 
     @ManyToOne
     @JoinColumn(name="user_id")
