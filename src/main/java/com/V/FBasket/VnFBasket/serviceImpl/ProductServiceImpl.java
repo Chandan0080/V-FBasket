@@ -58,8 +58,19 @@ public Products getProductById(Long productId) {
 
 @Override
 public Products updateProduct(Products product, Long productId) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'updateProduct'");
+    try{
+        Products existingProduct = productsRepo.findById(productId).get();
+        existingProduct.setProductName(product.getProductName());
+        existingProduct.setProductDescription(product.getProductDescription());
+        existingProduct.setProductPrice(product.getProductPrice());
+        existingProduct.setStockQuantity(product.getStockQuantity());
+        existingProduct.setProductRating(product.getProductRating());
+        return productsRepo.save(existingProduct);
+
+    }
+    catch(Exception e){
+        return null;
+    }
 }
 
 @Override
@@ -72,15 +83,22 @@ public boolean deleteProduct(Long productId) {
     }
 }
 
-@Override
-public Products getProductByProductName(String productName) {
+    @Override
+    public List<Products> getProductsByCategoryName(String categoryName) {
+        try{
+            return productsRepo.findProductsByCategoryName(categoryName);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Products getProductByProductName(String productName) {
     try {
-        return productsRepo.findByProductName(productName).get(0);
+        return productsRepo.findByProductName(productName);
     } catch (Exception e) {
         return null;
     }
-}
-
-
+    }
     
 }
