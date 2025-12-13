@@ -1,11 +1,11 @@
 package com.V.FBasket.VnFBasket.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,4 +24,12 @@ public class Products {
     @ManyToOne
     @JoinColumn(name="categoryId")
     private Categories category;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<CartItem> cartItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Reviews> reviews = new ArrayList<>();
 }
