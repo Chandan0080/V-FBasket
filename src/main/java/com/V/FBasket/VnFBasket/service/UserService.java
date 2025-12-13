@@ -2,7 +2,6 @@ package com.V.FBasket.VnFBasket.service;
 
 import java.util.List;
 
-import com.V.FBasket.VnFBasket.model.Address;
 import com.V.FBasket.VnFBasket.model.User;
 
 public interface UserService {

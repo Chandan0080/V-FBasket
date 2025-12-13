@@ -1,9 +1,9 @@
 package com.V.FBasket.VnFBasket.service;
 
-import com.V.FBasket.VnFBasket.model.Address;
-import com.V.FBasket.VnFBasket.model.User;
-
 import java.util.List;
+
+import com.V.FBasket.VnFBasket.model.Address;
+
 
 public interface AddressService {
 
