@@ -15,5 +15,5 @@ public interface AddressRepository extends JpaRepository<Address,Long> {
 
     @Query("select a from Address a where a.user.userId = :userId")
     List<Address> findAddressByUserId(@Param("userId") Long userId);
-//    List<Address> findAddressByUserId(Long userId);
+
 }
