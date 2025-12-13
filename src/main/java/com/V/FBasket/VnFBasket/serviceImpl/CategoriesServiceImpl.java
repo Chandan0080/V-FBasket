@@ -14,12 +14,20 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public Categories addCategory(Categories category) {
-        return null;
+        try {
+            return categoriesRepository.save(category);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public Categories getCategoryById(Long categoryId) {
-        return null;
+        try {
+            return categoriesRepository.findById(categoryId).get();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -29,6 +37,11 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public boolean deleteCategory(Long categoryId) {
-        return false;
+        try {
+            categoriesRepository.deleteById(categoryId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
