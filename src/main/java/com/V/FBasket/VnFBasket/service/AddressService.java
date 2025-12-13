@@ -8,7 +8,7 @@ import java.util.List;
 public interface AddressService {
 
     Address addAddress(Long userId, Address address);
-//    List<Address> getAllAddressesByUserID(Long userId);
+    List<Address> getAllAddressByUserID(Long userId);
     Address getAddressById(Long addressId);
     Address updateAddress(Address address, Long addressId);
     boolean deleteAddress(Long addressId);

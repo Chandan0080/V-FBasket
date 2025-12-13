@@ -27,11 +27,11 @@ public class AddressServiceImpl implements AddressService {
         return addressRepo.save(address);
     }
 
-//    @Override
-//    public List<Address> getAllAddressesByUserID(Long userId) {
-//
-//        return addressRepo.findByUserUserId(userId);
-//    }
+    @Override
+    public List<Address> getAllAddressByUserID(Long userId) {
+
+        return addressRepo.findAddressByUserId(userId);
+    }
 
     @Override
     public Address getAddressById(Long addressId) {
@@ -40,7 +40,18 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address updateAddress(Address address, Long addressId) {
-        return null;
+        Optional<Address> opt = addressRepo.findById(addressId);
+        if (opt.isEmpty()) return null;
+        Address existingAddress = opt.get();
+        existingAddress.setAddress(address.getAddress());
+        existingAddress.setStreet(address.getStreet());
+        existingAddress.setCity(address.getCity());
+        existingAddress.setState(address.getState());
+        existingAddress.setPinCode(address.getPinCode());
+        if (address.getIsDefault() != null) {
+            existingAddress.setIsDefault(address.getIsDefault());
+        }
+        return addressRepo.save(existingAddress);
     }
 
     @Override

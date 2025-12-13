@@ -35,7 +35,7 @@ public class CategoriesController {
         }
     }
 
-    @PutMapping("/address/{categoryId}")
+    @PutMapping("/category/{categoryId}")
     public ResponseEntity<Categories> updateCategory(@RequestBody Categories category, @PathVariable long categoryId) {
         Categories updatedCategory = categoriesService.updateCategory(category, categoryId);
         if (updatedCategory != null) {
@@ -45,7 +45,7 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("/address/{categoryId}")
+    @DeleteMapping("/category/{categoryId}")
     public ResponseEntity<Categories> deleteCategory(@PathVariable long categoryId) {
         Categories category = categoriesService.getCategoryById(categoryId);
         if(category!=null && categoriesService.deleteCategory(
