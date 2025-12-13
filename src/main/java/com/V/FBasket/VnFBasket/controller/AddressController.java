@@ -27,16 +27,16 @@ public class AddressController {
         }
     }
 
-//    @GetMapping("/address/user/{userId}")
-//    public ResponseEntity<List<Address>> getAllAddressesByUserID(@PathVariable long userId) {
-//        List<Address> addressList = addressService.getAllAddressesByUserID(userId);
-//        if(addressList != null) {
-//            return new ResponseEntity<>(addressList, HttpStatus.OK);
-//        }
-//        else{
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping("/address/user/{userId}")
+    public ResponseEntity<List<Address>> getAllAddressesByUserID(@PathVariable long userId) {
+        List<Address> addressList = addressService.getAllAddressByUserID(userId);
+        if(addressList != null) {
+            return new ResponseEntity<>(addressList, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/address/{addressId}")
     public ResponseEntity<Address> getAddressById(@PathVariable long addressId) {
