@@ -6,6 +6,8 @@ import com.V.FBasket.VnFBasket.service.CategoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriesServiceImpl implements CategoriesService {
 
@@ -32,7 +34,16 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public Categories updateCategory(Categories category, Long categoryId) {
-        return null;
+        try{
+            Categories existingCategory = categoriesRepository.findById(categoryId).get();
+            existingCategory.setCategoryName(category.getCategoryName());
+            existingCategory.setCategoryDescription(category.getCategoryDescription());
+            return categoriesRepository.save(existingCategory);
+
+        }catch(Exception e){
+            return null;
+        }
+
     }
 
     @Override
@@ -44,4 +55,24 @@ public class CategoriesServiceImpl implements CategoriesService {
             return false;
         }
     }
+
+    @Override
+    public Categories getCategoryByName(String categoryName) {
+        try{
+            return categoriesRepository.findByCategoryName(categoryName);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<Categories> getAllCategories() {
+        try{
+            return categoriesRepository.findAll();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

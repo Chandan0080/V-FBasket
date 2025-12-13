@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CategoriesController {
 
@@ -54,6 +56,26 @@ public class CategoriesController {
         }
         else{
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/categories/{categoryName}")
+    public ResponseEntity<Categories> getCategoryByName(@PathVariable String categoryName) {
+        Categories category = categoriesService.getCategoryByName(categoryName);
+        if (category != null) {
+            return new ResponseEntity<>(category, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<Categories>> getAllCategories() {
+        List<Categories> categories = categoriesService.getAllCategories();
+        if (categories != null) {
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
