@@ -1,42 +1,44 @@
-package com.V.FBasket.VnFBasket.model.order;
+package com.V.FBasket.VnFBasket.model.Order;
+
+import jakarta.persistence.*;   
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-
-
-import jakarta.persistence.*;
-import lombok.*;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false) /// hum bina iske bhi kaam chla skte h hatana h to hata dena bas isko likne se null data nhi lega db me kuch bhi.
     private Long userId;
 
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "total_amount", nullable = false)  // same for this 
     private Double totalAmount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status", nullable = false)
     private PaymentStatus paymentStatus;
 
-    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    // One Order → Many OrderItems   --> ye vs code ka suggestion h jo maine accept kar liya h
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
+
+    // Address ID for the order
+    @Column(name = "address_id", nullable = false)
+    private Long addressId;
+
 }

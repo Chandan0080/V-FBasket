@@ -1,4 +1,4 @@
-package com.V.FBasket.VnFBasket.model.order;
+package com.V.FBasket.VnFBasket.model.Order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -7,11 +7,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "order_items")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class OrderItem {
 
     @Id
@@ -21,14 +22,12 @@ public class OrderItem {
     @Column(name = "product_id", nullable = false)
     private Long productId;
 
-    @Column(nullable = false)
     private Integer quantity;
-
-    @Column(nullable = false)
     private Double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Many OrderItems → One Order
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    @JsonIgnore   // ✅ CORRECT PLACE
+    @JsonIgnore
     private Order order;
 }

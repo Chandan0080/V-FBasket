@@ -1,16 +1,20 @@
 package com.V.FBasket.VnFBasket.controller;
 
-import java.util.List;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.V.FBasket.VnFBasket.dto.CreateOrderRequest;
-import com.V.FBasket.VnFBasket.model.order.Order;
-import com.V.FBasket.VnFBasket.model.order.OrderStatus;
+import lombok.RequiredArgsConstructor;
+import java.util.List;
+import com.V.FBasket.VnFBasket.model.Order.Order;
+import com.V.FBasket.VnFBasket.model.Order.OrderStatus;
 import com.V.FBasket.VnFBasket.service.OrderService;
 
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -19,33 +23,32 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    
     @PostMapping
-    public ResponseEntity<Order> placeOrder(
-            @RequestBody CreateOrderRequest request) {
-        return ResponseEntity.ok(orderService.placeOrder(request));
+    public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
+        return ResponseEntity.ok(orderService.placeOrder(order));
     }
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.getOrderById(orderId));
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<Order>> getByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(orderService.getOrdersByUser(userId));
     }
 
-    @PutMapping("/{orderId}/status")
-    public ResponseEntity<Order> updateOrderStatus(
-            @PathVariable Long orderId,
-            @RequestParam OrderStatus status) {
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Order> updateStatus(
+        @PathVariable Long id,
+        @RequestParam OrderStatus status) {
 
-        return ResponseEntity.ok(orderService.updateOrderStatus(orderId, status));
+     return ResponseEntity.ok(
+         orderService.updateOrderStatus(id, status));
     }
 
-    @PutMapping("/{orderId}/cancel")
-    public ResponseEntity<Order> cancelOrder(@PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.cancelOrder(orderId));
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Order> cancelOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.cancelOrder(id));
     }
 }

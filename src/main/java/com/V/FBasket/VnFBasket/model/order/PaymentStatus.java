@@ -1,7 +1,5 @@
-package com.V.FBasket.VnFBasket.model.order;
+package com.V.FBasket.VnFBasket.model.Order;
 
 public enum PaymentStatus {
-    PENDING,
-    SUCCESS,
-    FAILED
+    PENDING, SUCCESS, FAILED
 }

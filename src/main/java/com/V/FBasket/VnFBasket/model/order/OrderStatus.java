@@ -1,11 +1,5 @@
-package com.V.FBasket.VnFBasket.model.order;
+package com.V.FBasket.VnFBasket.model.Order;
 
 public enum OrderStatus {
-    PLACED,
-    PACKED,
-    SHIPPED,
-    OUT_FOR_DELIVERY,
-    DELIVERED,
-    CANCELLED
+    PLACED, SHIPPED, DELIVERED, CANCELLED
 }
-    
