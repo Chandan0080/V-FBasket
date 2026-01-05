@@ -1,6 +1,8 @@
 package com.V.FBasket.VnFBasket.model.Order;
 
-import com.V.FBasket.VnFBasket.controller.List;
+
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -33,8 +35,5 @@ public class OrderItem {
     private Order order;
 
 
-    public static List<OrderItem> getItemsByOrderId(Long orderId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getItemsByOrderId'");
-    }
+   
 }
