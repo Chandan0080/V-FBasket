@@ -20,7 +20,7 @@ public class AddressController {
     public ResponseEntity<Address> addAddress(@PathVariable Long userId, @RequestBody Address address) {
         Address savedAddress = addressService.addAddress(userId, address);
         if(savedAddress != null) {
-            return new ResponseEntity<>(address, HttpStatus.CREATED);
+            return new ResponseEntity<>(savedAddress, HttpStatus.CREATED);
         }
         else{
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

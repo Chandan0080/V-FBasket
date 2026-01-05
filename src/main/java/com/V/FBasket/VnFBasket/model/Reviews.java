@@ -14,10 +14,10 @@ public class Reviews {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", unique = true, nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name="product_id", unique = true, nullable = false)
     private Products product;
 }
