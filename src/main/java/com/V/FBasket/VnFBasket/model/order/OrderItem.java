@@ -25,7 +25,7 @@ public class OrderItem {
     private Integer quantity;
     private Double price;
 
-    // Many OrderItems → One Order
+    
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
