@@ -32,4 +32,8 @@ public class Products {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<Reviews> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore 
+    private List<OrderItems> orderItems = new ArrayList<>();
 }
