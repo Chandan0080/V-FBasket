@@ -1,6 +1,10 @@
 package com.V.FBasket.VnFBasket.model;
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,4 +26,8 @@ public class Address {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @OneToMany(mappedBy = "address")
+    @JsonIgnore
+    private List<Order> orders;
 }
