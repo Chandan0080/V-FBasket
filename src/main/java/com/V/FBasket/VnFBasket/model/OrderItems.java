@@ -1,6 +1,8 @@
 package com.V.FBasket.VnFBasket.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,10 +13,6 @@ public class OrderItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
 
-    @JoinColumn(name = "order_id")
-    @ManyToOne
-    private Orders order;
-
     @JoinColumn(name = "product_id")
     @ManyToOne
     private Products product;
@@ -22,4 +20,8 @@ public class OrderItems {
     private Integer quantity;
     private Long price;
     
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @JsonBackReference
+    private Orders order;
 }
