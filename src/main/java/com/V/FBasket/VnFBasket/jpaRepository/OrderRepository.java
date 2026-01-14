@@ -5,15 +5,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.V.FBasket.VnFBasket.model.Order;
+
+import com.V.FBasket.VnFBasket.model.Orders;
+
 import java.util.List;
 
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Orders, Long> {
 
-    @Query("SELECT o FROM Order o WHERE o.user.userId = :userId")
-    List<Order> findByUserId(@Param("userId") Long userId);
+    @Query("SELECT o FROM Orders o WHERE o.user.userId = :userId")
+    List<Orders> findByUserId(@Param("userId") Long userId);
 
     
 

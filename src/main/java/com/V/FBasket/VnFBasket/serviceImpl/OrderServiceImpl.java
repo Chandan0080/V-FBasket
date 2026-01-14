@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.V.FBasket.VnFBasket.jpaRepository.OrderRepository;
-import com.V.FBasket.VnFBasket.model.Order;
+import com.V.FBasket.VnFBasket.model.Orders;
 import com.V.FBasket.VnFBasket.service.OrderService;
 
 @Service
@@ -17,35 +17,37 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     
     @Override
-    public Order placeOrder(Order order) {
+    public Orders placeOrder(Orders order) {
         order.setOrderStatus("PLACED");
         order.setPaymentStatus("SUCCESS");
+        order.setAddress(order.getAddress());
+        order.setUser(order.getUser());
         order.setOrderDate(LocalDateTime.now());
 
         return orderRepository.save(order);
     }
 
     @Override
-    public Order getOrderById(Long orderId) {
+    public Orders getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 
     @Override
-    public List<Order> getOrdersByUserId(Long userId) {
+    public List<Orders> getOrdersByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 
     @Override
-    public Order updateOrderStatus(Long orderId, String status) {
-        Order order = getOrderById(orderId);
+    public Orders updateOrderStatus(Long orderId, String status) {
+        Orders order = getOrderById(orderId);
         order.setOrderStatus(status);
         return orderRepository.save(order);
     }
 
     @Override
     public void cancelOrder(Long orderId) {
-        Order order = getOrderById(orderId);
+        Orders order = getOrderById(orderId);
         order.setOrderStatus("CANCELLED");
         orderRepository.save(order);
     }

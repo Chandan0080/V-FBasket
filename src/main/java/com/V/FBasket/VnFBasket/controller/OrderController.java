@@ -1,6 +1,6 @@
 package com.V.FBasket.VnFBasket.controller;
 
-import com.V.FBasket.VnFBasket.model.Order;
+import com.V.FBasket.VnFBasket.model.Orders;
 import com.V.FBasket.VnFBasket.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +16,24 @@ public class OrderController {
    
    
     @PostMapping
-    public Order placeOrder(@RequestBody Order order) {
+    public Orders placeOrder(@RequestBody Orders order) {
         return orderService.placeOrder(order);
 
         
     }
 
     @GetMapping("/{orderId}")
-    public Order getOrderById(@PathVariable Long orderId) {
+    public Orders getOrderById(@PathVariable Long orderId) {
         return orderService.getOrderById(orderId);
     }
     
     @GetMapping("/user/{userId}")
-    public List<Order> getOrdersByUser(@PathVariable Long userId) {
+    public List<Orders> getOrdersByUser(@PathVariable Long userId) {
         return orderService.getOrdersByUserId(userId);
     }
 
     @PutMapping("/{orderId}/status")
-    public Order updateOrderStatus(
+    public Orders updateOrderStatus(
             @PathVariable Long orderId,
             @RequestParam String status) {
 
