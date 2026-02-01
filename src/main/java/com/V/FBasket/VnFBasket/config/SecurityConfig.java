@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/checkUserExists").permitAll()
                         .requestMatchers("/api/user/login").permitAll()
 //                        .requestMatchers("/api/deleteUser").permitAll()
-                        .requestMatchers("/api/**").authenticated())
+                        .anyRequest().authenticated())
                                 .sessionManagement( session -> session
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authenticationProvider(authenticationProvider(userDetailsService(), passwordEncoder()))
