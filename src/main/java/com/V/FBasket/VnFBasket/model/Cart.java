@@ -12,7 +12,7 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)

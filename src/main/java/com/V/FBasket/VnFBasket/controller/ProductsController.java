@@ -14,6 +14,7 @@ import com.V.FBasket.VnFBasket.service.ProductService;
 
 
 @RestController
+@RequestMapping("/api")
 public class ProductsController {
     @Autowired
     private ProductService pService;
