@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User registerUser(User user) {
         try{
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole("USER");
             return userRepo.save(user);
         } catch(Exception e){
             e.printStackTrace();

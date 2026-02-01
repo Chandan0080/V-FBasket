@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,6 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
-
     private UserRepository userRepository;
 
     @Autowired
@@ -38,18 +38,18 @@ public class JWTUtil {
         claims.put("userId", user.getUserId());
 
         return Jwts.builder()
-            .setClaims(claims)
+                .setClaims(claims)                    // Set claims FIRST
+                .setSubject(username)                  // Then set subject AFTER claims
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
     }
 
     public Claims extractAllClaims(String token){
         Claims claims;
         try{
-            claims=Jwts
+            claims = Jwts
                     .parser()
                     .setSigningKey(key)
                     .build()
@@ -70,6 +70,10 @@ public class JWTUtil {
         return claims.getSubject();
     }
 
+    public Long extractUserId(String token){
+        return extractAllClaims(token).get("userId", Long.class);
+    }
+
     public boolean isTokenExpired(String token) {
         Date expirationDate = Jwts.parser()
                 .setSigningKey(key)
@@ -84,5 +88,4 @@ public class JWTUtil {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
 }

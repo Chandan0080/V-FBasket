@@ -1,6 +1,7 @@
 package com.V.FBasket.VnFBasket.config;
 
 import com.V.FBasket.VnFBasket.model.User;
+import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -13,11 +14,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserInfoUserDetails implements UserDetails {
+    @Getter
+    private Long userId;
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public UserInfoUserDetails(User userInfo){
+        userId = userInfo.getUserId();
         email = userInfo.getEmail();
         password = userInfo.getPassword();
         authorities = Arrays.stream(userInfo.getRole().split(","))
