@@ -22,7 +22,7 @@ import com.V.FBasket.VnFBasket.service.UserService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class UserController {
 
     @Autowired
@@ -93,7 +93,7 @@ public class UserController {
     }
 
     @GetMapping("/checkUserExists")
-    public ResponseEntity<Boolean> checkEmailExists(@RequestParam("email") String email) {
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam("username") String email) {
         boolean exists = userService.checkUserExistsByEmail(email);
         return ResponseEntity.ok(exists);
     }

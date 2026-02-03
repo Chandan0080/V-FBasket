@@ -14,12 +14,12 @@ import com.V.FBasket.VnFBasket.service.ProductService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class ProductsController {
     @Autowired
     private ProductService pService;
 
-    @PostMapping("/category/{categoryId}/product")
+    @PostMapping("/addProduct/{categoryId}/")
     public ResponseEntity<Products> addProduct(@RequestBody Products product,@PathVariable Long categoryId){
         Products p = pService.addProducts(product, categoryId);
         if(p!=null){
@@ -30,7 +30,7 @@ public class ProductsController {
 
     }
 
-    @GetMapping("/products")
+    @GetMapping("/getAllProducts")
     public ResponseEntity<List<Products>> getAllProducts(){
         List<Products> p1 = pService.getAllProducts();
         if(p1!=null){
@@ -40,7 +40,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/getProductsById/{id}")
     public ResponseEntity<Products> getProductsById(@PathVariable Long id){
         Products p1 = pService.getProductById(id);
         if(p1!=null){
@@ -50,7 +50,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/category/{id}")
+    @GetMapping("/getProductsByCategoryId/{id}")
     public ResponseEntity<List<Products>> getProductsByCategoryId(@PathVariable Long id){
         List<Products> p1 = pService.getProductsByCategoryId(id);
         if(p1!=null){
@@ -60,7 +60,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/name/{name}")
+    @GetMapping("/getProductByProductName/{name}")
     public ResponseEntity<Products> getProductByProductName(@PathVariable String name){
         Products p1 = pService.getProductByProductName(name);
         if(p1!=null){
@@ -70,7 +70,7 @@ public class ProductsController {
         }
     }
 
-    @DeleteMapping("/product/{productId}")
+    @DeleteMapping("/deleteProduct/{productId}")
     public ResponseEntity<Products> deleteProduct(@PathVariable long productId) {
         Products product = pService.getProductById(productId);
         if(product!=null && pService.deleteProduct(
@@ -82,7 +82,7 @@ public class ProductsController {
         }
     }
 
-    @PutMapping("/product/{productId}")
+    @PutMapping("/updateProduct/{productId}")
     public ResponseEntity<Products> updateProduct(@RequestBody Products product, @PathVariable long productId) {
         Products updatedProduct = pService.updateProduct(product, productId);
         if (updatedProduct != null) {
@@ -92,7 +92,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/category/name/{categoryName}")
+    @GetMapping("/getProductsByCategoryName/{categoryName}")
     public ResponseEntity<List<Products>> getProductsByCategoryName(@PathVariable String categoryName){
         List<Products> p1 = pService.getProductsByCategoryName(categoryName);
         if(p1!=null){

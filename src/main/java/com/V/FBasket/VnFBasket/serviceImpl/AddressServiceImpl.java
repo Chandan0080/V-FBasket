@@ -34,15 +34,13 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address getAddressById(Long addressId) {
-        return addressRepo.findById(addressId).orElse(null);
+    public Address getAddressByIdAndUserId(Long addressId, Long userId) {
+        return addressRepo.findByIdAndUserUserId(addressId, userId);
     }
 
     @Override
-    public Address updateAddress(Address address, Long addressId) {
-        Optional<Address> opt = addressRepo.findById(addressId);
-        if (opt.isEmpty()) return null;
-        Address existingAddress = opt.get();
+    public Address updateAddress(Address address, Long userId) {
+        Address existingAddress = addressRepo.findByIdAndUserUserId(address.getAddressId(), userId);
         existingAddress.setAddress(address.getAddress());
         existingAddress.setStreet(address.getStreet());
         existingAddress.setCity(address.getCity());

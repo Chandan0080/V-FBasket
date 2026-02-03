@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class CategoriesController {
 
     @Autowired
     private CategoriesServiceImpl categoriesService;
 
-    @PostMapping("/category")
+    @PostMapping("/addCategory")
     public ResponseEntity<Categories> addCategory(@RequestBody Categories categories) {
         Categories category = categoriesService.addCategory(categories);
         if(category != null) {
@@ -28,7 +28,7 @@ public class CategoriesController {
         }
     }
 
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("/getCategoryById/{categoryId}")
     public ResponseEntity<Categories> getCategoryById(@PathVariable long categoryId) {
         Categories category = categoriesService.getCategoryById(categoryId);
         if (category != null) {
@@ -38,7 +38,7 @@ public class CategoriesController {
         }
     }
 
-    @PutMapping("/category/{categoryId}")
+    @PutMapping("/updateCategory/{categoryId}")
     public ResponseEntity<Categories> updateCategory(@RequestBody Categories category, @PathVariable long categoryId) {
         Categories updatedCategory = categoriesService.updateCategory(category, categoryId);
         if (updatedCategory != null) {
@@ -48,7 +48,7 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("/category/{categoryId}")
+    @DeleteMapping("/deleteCategory/{categoryId}")
     public ResponseEntity<Categories> deleteCategory(@PathVariable long categoryId) {
         Categories category = categoriesService.getCategoryById(categoryId);
         if(category!=null && categoriesService.deleteCategory(
@@ -60,7 +60,7 @@ public class CategoriesController {
         }
     }
 
-    @GetMapping("/categories/{categoryName}")
+    @GetMapping("/getCategoriesByName/{categoryName}")
     public ResponseEntity<Categories> getCategoryByName(@PathVariable String categoryName) {
         Categories category = categoriesService.getCategoryByName(categoryName);
         if (category != null) {
@@ -70,7 +70,7 @@ public class CategoriesController {
         }
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/getAllCategories")
     public ResponseEntity<List<Categories>> getAllCategories() {
         List<Categories> categories = categoriesService.getAllCategories();
         if (categories != null) {
