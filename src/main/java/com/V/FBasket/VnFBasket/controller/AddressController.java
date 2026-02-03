@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class AddressController {
 
     @Autowired
     private AddressServiceImpl addressService;
 
-    @PostMapping("/address")
+    @PostMapping("/addAddress")
     public ResponseEntity<Address> addAddress(@RequestBody Address address) {
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

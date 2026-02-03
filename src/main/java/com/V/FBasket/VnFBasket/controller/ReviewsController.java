@@ -1,16 +1,19 @@
 package com.V.FBasket.VnFBasket.controller;
 
+import com.V.FBasket.VnFBasket.config.UserInfoUserDetails;
 import com.V.FBasket.VnFBasket.model.Reviews;
 import com.V.FBasket.VnFBasket.serviceImpl.ReviewsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class ReviewsController {
 
     @Autowired
@@ -28,7 +31,7 @@ public class ReviewsController {
 
     }
 
-    @GetMapping("/product/{productId}")
+    @GetMapping("/getReviewsByProductId/{productId}")
     public ResponseEntity<List<Reviews>> getReviewsByProductId(@PathVariable Long productId) {
         List<Reviews> reviewsList = reviewsService.getReviewByProductId(productId);
         if(reviewsList!=null){
@@ -39,8 +42,11 @@ public class ReviewsController {
         }
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Reviews>> getReviewsByUserId(@PathVariable Long userId) {
+    @GetMapping("/getReviewsByUserId")
+    public ResponseEntity<List<Reviews>> getReviewsByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfoUserDetails user = (UserInfoUserDetails) authentication.getPrincipal();
+        Long userId = user.getUserId();
         List<Reviews> reviewsList = reviewsService.getReviewByUserId(userId);
         if (reviewsList != null) {
             return new ResponseEntity<>(reviewsList, HttpStatus.OK);
@@ -49,7 +55,7 @@ public class ReviewsController {
         }
     }
 
-    @PutMapping("/updateReviews/{reviewId}")
+    @PutMapping("/updateReview/{reviewId}")
     public ResponseEntity<Reviews> updateReview(@RequestBody Reviews review, @PathVariable Long reviewId) {
         Reviews updatedReview = reviewsService.updateReview(review, reviewId);
         if (updatedReview != null) {
@@ -59,7 +65,7 @@ public class ReviewsController {
         }
     }
 
-    @DeleteMapping("/deleteReviews/{reviewId}")
+    @DeleteMapping("/deleteReview/{reviewId}")
     public ResponseEntity<Reviews> deleteReview(@PathVariable Long reviewId) {
         Boolean deleteReview = reviewsService.deleteReview(reviewId);
         if (deleteReview) {

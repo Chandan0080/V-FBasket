@@ -22,7 +22,7 @@ import com.V.FBasket.VnFBasket.service.UserService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/vnfbasket")
 public class UserController {
 
     @Autowired
