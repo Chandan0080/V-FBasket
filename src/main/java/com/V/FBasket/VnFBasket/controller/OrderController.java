@@ -1,10 +1,14 @@
 package com.V.FBasket.VnFBasket.controller;
 
+import com.V.FBasket.VnFBasket.DTO.OrderPlacedResponse;
 import com.V.FBasket.VnFBasket.model.Orders;
 import com.V.FBasket.VnFBasket.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @RestController
@@ -16,10 +20,16 @@ public class OrderController {
    
    
     @PostMapping
-    public Orders placeOrder(@RequestBody Orders order) {
-        return orderService.placeOrder(order);
+    public OrderPlacedResponse placeOrder(@RequestBody Orders order) {
+         if (order.getAddress() == null) 
+        {
+           throw new ResponseStatusException( HttpStatus.BAD_REQUEST,"Address is required to place order");
+        }
 
-        
+       Orders savedOrder = orderService.placeOrder(order);
+        return new OrderPlacedResponse(
+        savedOrder.getOrderId(),
+        "Order placed successfully");
     }
 
     @GetMapping("/{orderId}")

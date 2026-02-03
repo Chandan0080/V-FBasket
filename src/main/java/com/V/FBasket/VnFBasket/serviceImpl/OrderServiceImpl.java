@@ -15,13 +15,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-    
+
     @Override
     public Orders placeOrder(Orders order) {
         order.setOrderStatus("PLACED");
         order.setPaymentStatus("SUCCESS");
-        order.setAddress(order.getAddress());
-        order.setUser(order.getUser());
         order.setOrderDate(LocalDateTime.now());
 
         return orderRepository.save(order);
@@ -35,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Orders> getOrdersByUserId(Long userId) {
-        return orderRepository.findByUserId(userId);
+        return orderRepository.findByUserId(userId); // address fetched via JOIN FETCH
     }
 
     @Override
