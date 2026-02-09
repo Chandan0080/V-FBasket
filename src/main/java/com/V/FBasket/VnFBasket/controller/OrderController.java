@@ -1,6 +1,6 @@
 package com.V.FBasket.VnFBasket.controller;
 
-import com.V.FBasket.VnFBasket.DTO.OrderPlacedResponse;
+import com.V.FBasket.VnFBasket.dto.OrderPlacedResponse;
 import com.V.FBasket.VnFBasket.model.Orders;
 import com.V.FBasket.VnFBasket.service.OrderService;
 

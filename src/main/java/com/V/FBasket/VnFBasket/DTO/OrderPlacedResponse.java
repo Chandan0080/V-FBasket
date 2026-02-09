@@ -1,4 +1,4 @@
-package com.V.FBasket.VnFBasket.DTO;
+package com.V.FBasket.VnFBasket.dto;
 
 public class OrderPlacedResponse {
 
