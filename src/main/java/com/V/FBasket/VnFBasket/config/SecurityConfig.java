@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -37,14 +38,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
+        return http
+            .cors(Customizer.withDefaults())
+        .csrf(csrf -> csrf.disable())
                         .authorizeHttpRequests((authorize) ->
                         authorize
-                        .requestMatchers("/api/register").permitAll()
-                        .requestMatchers("/api/checkUserExists").permitAll()
-                        .requestMatchers("/api/user/login").permitAll()
+                        .requestMatchers("/vnfbasket/register").permitAll()
+                        .requestMatchers("/vnfbasket/checkUserExists").permitAll()
+                        .requestMatchers("/vnfbasket/user/login").permitAll()
 //                        .requestMatchers("/api/deleteUser").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/vnfbasket/**").authenticated())
                                 .sessionManagement( session -> session
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authenticationProvider(authenticationProvider(userDetailsService(), passwordEncoder()))

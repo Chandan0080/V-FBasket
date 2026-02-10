@@ -2,6 +2,7 @@ package com.V.FBasket.VnFBasket.controller;
 
 import java.util.List;
 
+import com.V.FBasket.VnFBasket.dto.ProductRequest;
 import com.V.FBasket.VnFBasket.model.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,9 @@ public class ProductsController {
     @Autowired
     private ProductService pService;
 
-    @PostMapping("/addProduct/{categoryId}/")
-    public ResponseEntity<Products> addProduct(@RequestBody Products product,@PathVariable Long categoryId){
-        Products p = pService.addProducts(product, categoryId);
+    @PostMapping("/addProduct")
+    public ResponseEntity<Products> addProduct(@RequestBody ProductRequest productRequest){
+        Products p = pService.addProducts(productRequest);
         if(p!=null){
             return ResponseEntity.ok(p);
         } else {

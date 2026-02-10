@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.V.FBasket.VnFBasket.dto.ProductRequest;
 import com.V.FBasket.VnFBasket.jpaRepository.CategoriesRepository;
 import com.V.FBasket.VnFBasket.jpaRepository.ProductsRepository;
+import com.V.FBasket.VnFBasket.model.Categories;
 import com.V.FBasket.VnFBasket.model.Products;
 import com.V.FBasket.VnFBasket.service.ProductService;
 
@@ -20,9 +22,18 @@ private ProductsRepository productsRepo;
 private CategoriesRepository categoryryRepo;
 
 @Override
-public Products addProducts(Products product, Long categoryId) {
+public Products addProducts(ProductRequest productRequest) {
     try {
-        product.setCategory(categoryryRepo.findById(categoryId).get());
+        Categories category = categoryryRepo.findById(productRequest.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
+        Products product = new Products();
+        product.setProductName(productRequest.getProductName());
+        product.setProductDescription(productRequest.getProductDescription());
+        product.setProductPrice(productRequest.getProductPrice());
+        product.setImageUrl(productRequest.getImageUrl());
+        product.setStockQuantity(productRequest.getStockQuantity());
+        product.setProductRating(productRequest.getProductRating());
+        product.setCategory(category);  
+               
         return productsRepo.save(product);
     } catch (Exception e) {
         return null;

@@ -13,10 +13,11 @@ public class Configurations {
         return new WebMvcConfigurer() {
 
             public void addCorsMappings(CorsRegistry registry){
-                registry.addMapping("/**")
+                registry.addMapping("/**")              
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedOrigins("*")
                         .allowedHeaders("*");
+                        
 
             }
         };
