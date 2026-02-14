@@ -11,7 +11,6 @@ public class ProductRequest {
     private double productPrice;
     private String imageUrl;
     private int stockQuantity;
-    private int productRating;
     private Long categoryId;
 
     

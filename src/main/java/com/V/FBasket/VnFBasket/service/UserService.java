@@ -11,7 +11,7 @@ public interface UserService {
     List<User> getAllUsers();
     User registerUser(User user);
     User updateUser(Long id, User user);
-    Boolean deleteUser(Long id);
+    String deleteUser(Long id);
     List<User> getUsersByRole(String role);
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
     User getUserByEmail(String email);
