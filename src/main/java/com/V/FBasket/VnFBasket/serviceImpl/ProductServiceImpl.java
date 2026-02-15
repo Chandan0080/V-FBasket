@@ -31,9 +31,7 @@ public Products addProducts(ProductRequest productRequest) {
         product.setProductPrice(productRequest.getProductPrice());
         product.setImageUrl(productRequest.getImageUrl());
         product.setStockQuantity(productRequest.getStockQuantity());
-        product.setProductRating(productRequest.getProductRating());
-        product.setCategory(category);  
-               
+        product.setCategory(category);
         return productsRepo.save(product);
     } catch (Exception e) {
         return null;

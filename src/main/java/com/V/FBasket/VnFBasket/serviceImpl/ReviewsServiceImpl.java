@@ -7,9 +7,11 @@ import com.V.FBasket.VnFBasket.model.Products;
 import com.V.FBasket.VnFBasket.model.Reviews;
 import com.V.FBasket.VnFBasket.model.User;
 import com.V.FBasket.VnFBasket.service.ReviewsService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Service
@@ -25,20 +27,17 @@ public class ReviewsServiceImpl implements ReviewsService {
     private ProductsRepository productsRepository;
 
     @Override
-    public Reviews addReview(Reviews review, Long userId, Long productId) {
-        try{
-            User user = userRepository.findById(userId).orElse(null);
-            Products product = productsRepository.findById(productId).orElse(null);
-            if(user == null || product == null){
-                return null;
-            }
-            review.setUser(user);
-            review.setProduct(product);
-            return reviewsRepository.save(review);
-        } catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+    @Transactional
+    public Reviews addReview(User user, Long productId, Long rating, String comment) {
+        Products product = productsRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Reviews review = new Reviews();
+        review.setUser(user);
+        review.setProduct(product);
+        review.setRating(rating);
+        review.setComment(comment);
+        Reviews savedReview = reviewsRepository.save(review);
+        updateProductRating(productId);
+        return savedReview;
 
     }
 
@@ -63,30 +62,36 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
     @Override
-    public Reviews updateReview(Reviews review, Long reviewId) {
-        try {
-            Reviews existingReview = reviewsRepository.findById(reviewId).orElse(null);
-            if (existingReview != null) {
-                existingReview.setRating(review.getRating());
-                existingReview.setComment(review.getComment());
-                return reviewsRepository.save(existingReview);
-            } else {
-                return null;
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    @Transactional
+    public Reviews updateReview(Long reviewId, Long userId, Long rating, String comment) throws AccessDeniedException {
+        Reviews review = reviewsRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review not found"));
+        if(!review.getUser().getUserId().equals(userId)){
+            throw new AccessDeniedException("Unauthorized to update this review");
         }
+        review.setRating(rating);
+        review.setComment(comment);
+        Reviews updatedReview = reviewsRepository.save(review);
+        updateProductRating(review.getProduct().getProductId());
+        return updatedReview;
+
+
     }
 
     @Override
-    public Boolean deleteReview(Long reviewId) {
-        try{
-            reviewsRepository.deleteById(reviewId);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    @Transactional
+    public void deleteReview(Long reviewId, Long userId) throws AccessDeniedException {
+        Reviews review = reviewsRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review not found"));
+        if(!review.getUser().getUserId().equals(userId)){
+            throw new AccessDeniedException("Unauthorized to delete this review");
         }
+        reviewsRepository.delete(review);
+        updateProductRating(review.getProduct().getProductId());
+
+    }
+
+    private void updateProductRating(Long productId) {
+        Products product = productsRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Integer averageRating = reviewsRepository.findAverageRatingByProductId(productId);
+        product.setProductRating(averageRating!=null ? averageRating : 0);
     }
 }

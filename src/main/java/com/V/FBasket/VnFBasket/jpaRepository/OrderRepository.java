@@ -14,11 +14,13 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, Long> {
 
-    @Query("""
-    SELECT o FROM Orders o
-    JOIN FETCH o.address
-    WHERE o.user.userId = :userId
-    """)
-    List<Orders> findByUserId(@Param("userId") Long userId);
+//    @Query("""
+//    SELECT o FROM Orders o
+//    JOIN FETCH o.address
+//    WHERE o.user.userId = :userId
+//    """)
+//    List<Orders> findByUserId(@Param("userId") Long userId);
+
+    List<Orders> findByUserUserId(Long userId);
 
 }

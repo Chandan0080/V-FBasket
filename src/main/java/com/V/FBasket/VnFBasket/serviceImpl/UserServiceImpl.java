@@ -68,12 +68,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Boolean deleteUser(Long id) {
+    public String deleteUser(Long id) {
         try{
             Optional<User> opt = userRepo.findById(id);
-            if (opt.isEmpty()) return false;
+            if (opt.isEmpty()) return "User with id " + id + " not found.";
             userRepo.deleteById(id);
-            return true;
+            return "User with id " + id + " deleted successfully.";
         } catch(Exception e){
             e.printStackTrace();
             return null;

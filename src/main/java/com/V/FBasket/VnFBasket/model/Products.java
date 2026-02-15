@@ -19,7 +19,8 @@ public class Products {
     private double productPrice;
     private String imageUrl;
     private int stockQuantity;
-    private int productRating;
+    @Column(nullable = false)
+    private int productRating = 0;
 
     @ManyToOne
     @JoinColumn(name="categoryId")
@@ -29,7 +30,7 @@ public class Products {
     @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Reviews> reviews = new ArrayList<>();
 
