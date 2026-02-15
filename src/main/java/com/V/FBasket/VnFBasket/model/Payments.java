@@ -1,5 +1,6 @@
 package com.V.FBasket.VnFBasket.model;
 
+import com.V.FBasket.VnFBasket.constants.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,12 +12,15 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
     private String paymentType;
-    private String paymentStatus;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+
     private String transactionId;
 
-//    @OneToOne
-//    @JoinColumn(name = "order_id", unique = true)
-//    private Order order;
+    @OneToOne
+    @JoinColumn(name = "order_id", unique = true)
+    private Orders order;
 
 
 }
