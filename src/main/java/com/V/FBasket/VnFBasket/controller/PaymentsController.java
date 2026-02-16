@@ -1,5 +1,6 @@
 package com.V.FBasket.VnFBasket.controller;
 
+import com.V.FBasket.VnFBasket.dto.PaymentRequestDTO;
 import com.V.FBasket.VnFBasket.dto.PaymentWebhookDTO;
 import com.V.FBasket.VnFBasket.model.Payments;
 import com.V.FBasket.VnFBasket.serviceImpl.PaymentsSeviceImpl;
@@ -20,11 +21,9 @@ public class PaymentsController {
      * POST
      */
     @PostMapping("/initiatePayment")
-    public ResponseEntity<Payments> initiatePayment(
-            @RequestParam Long orderId,
-            @RequestParam String paymentType) {
+    public ResponseEntity<Payments> initiatePayment(@RequestBody PaymentRequestDTO paymentRequest) {
 
-        Payments payment = paymentsSeviceImpl.initiatePayment(orderId, paymentType);
+        Payments payment = paymentsSeviceImpl.initiatePayment(paymentRequest.getOrderId(), paymentRequest.getPaymentType());
         return new ResponseEntity<>(payment, HttpStatus.CREATED);
     }
 
