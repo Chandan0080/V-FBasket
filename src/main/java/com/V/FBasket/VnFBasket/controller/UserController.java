@@ -98,11 +98,14 @@ public class UserController {
         return ResponseEntity.ok(exists);
     }
 
-    @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable Long userId) {
+    @DeleteMapping("/deleteMyAccount")
+    public ResponseEntity<String> deleteUserAccount() {
         try{
-            boolean b1 = userService.deleteUser(userId);
-            if(b1 != false){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserInfoUserDetails user = (UserInfoUserDetails) authentication.getPrincipal();
+            Long userId = user != null ? user.getUserId() : null;
+            String b1 = userService.deleteUser(userId);
+            if(b1 != null){
                 return new ResponseEntity<>(b1, HttpStatus.OK);
             }
             else{
