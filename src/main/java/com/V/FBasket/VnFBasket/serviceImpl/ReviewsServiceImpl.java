@@ -1,5 +1,7 @@
 package com.V.FBasket.VnFBasket.serviceImpl;
 
+import com.V.FBasket.VnFBasket.constants.OrderStatus;
+import com.V.FBasket.VnFBasket.jpaRepository.OrderRepository;
 import com.V.FBasket.VnFBasket.jpaRepository.ProductsRepository;
 import com.V.FBasket.VnFBasket.jpaRepository.ReviewsRepository;
 import com.V.FBasket.VnFBasket.jpaRepository.UserRepository;
@@ -21,7 +23,7 @@ public class ReviewsServiceImpl implements ReviewsService {
     private ReviewsRepository reviewsRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
     private ProductsRepository productsRepository;
@@ -29,7 +31,22 @@ public class ReviewsServiceImpl implements ReviewsService {
     @Override
     @Transactional
     public Reviews addReview(User user, Long productId, Long rating, String comment) {
+        if(reviewsRepository.existsByUserUserIdAndProductProductId(user.getUserId(), productId)){
+            throw new RuntimeException("You have already reviewed this product");
+        }
+
+        boolean hasPurchasedAndReceived = orderRepository.existsByUserUserIdAndOrderItemsProductProductIdAndOrderStatus(
+                user.getUserId(),
+                productId,
+                OrderStatus.DELIVERED
+        );
+
+        if(!hasPurchasedAndReceived){
+            throw new RuntimeException("You can only review products you have purchased and received");
+        }
+
         Products product = productsRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+
         Reviews review = new Reviews();
         review.setUser(user);
         review.setProduct(product);
