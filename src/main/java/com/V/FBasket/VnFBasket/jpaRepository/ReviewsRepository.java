@@ -18,4 +18,6 @@ public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
 
     @Query("select AVG(r.rating) from Reviews r where r.product.productId = :productId")
     Integer findAverageRatingByProductId(@Param("productId") Long productId);
+
+    boolean existsByUserUserIdAndProductProductId(Long userId, Long productId);
 }
