@@ -1,4 +1,4 @@
-package com.V.FBasket.VnFBasket.jpaRepository;
+package com.V.FBasket.VnFBasket.dao;
 
 import java.util.List;
 
@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.V.FBasket.VnFBasket.model.Products;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Repository
 public interface ProductsRepository extends JpaRepository<Products,Long> {

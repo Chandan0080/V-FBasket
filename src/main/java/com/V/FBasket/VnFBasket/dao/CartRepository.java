@@ -1,4 +1,4 @@
-package com.V.FBasket.VnFBasket.jpaRepository;
+package com.V.FBasket.VnFBasket.dao;
 
 import com.V.FBasket.VnFBasket.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;

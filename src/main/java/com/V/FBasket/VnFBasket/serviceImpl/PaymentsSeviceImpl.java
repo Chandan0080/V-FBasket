@@ -2,8 +2,8 @@ package com.V.FBasket.VnFBasket.serviceImpl;
 
 import com.V.FBasket.VnFBasket.constants.OrderStatus;
 import com.V.FBasket.VnFBasket.constants.PaymentStatus;
-import com.V.FBasket.VnFBasket.jpaRepository.OrderRepository;
-import com.V.FBasket.VnFBasket.jpaRepository.PaymentsRepository;
+import com.V.FBasket.VnFBasket.dao.OrderRepository;
+import com.V.FBasket.VnFBasket.dao.PaymentsRepository;
 import com.V.FBasket.VnFBasket.model.OrderItems;
 import com.V.FBasket.VnFBasket.model.Orders;
 import com.V.FBasket.VnFBasket.model.Payments;

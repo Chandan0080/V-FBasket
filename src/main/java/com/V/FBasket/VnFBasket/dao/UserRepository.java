@@ -1,4 +1,4 @@
-package com.V.FBasket.VnFBasket.jpaRepository;
+package com.V.FBasket.VnFBasket.dao;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
