@@ -17,7 +17,6 @@ public class Products {
     private String productName;
     private String productDescription;
     private double productPrice;
-    private String imageUrl;
     private int stockQuantity;
     @Column(nullable = false)
     private int productRating = 0;
@@ -37,4 +36,8 @@ public class Products {
     @OneToMany(mappedBy = "product")
     @JsonIgnore 
     private List<OrderItems> orderItems = new ArrayList<>();
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private ProductImage productImage;
 }

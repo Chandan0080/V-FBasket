@@ -1,10 +1,9 @@
 package com.V.FBasket.VnFBasket.serviceImpl;
 
 import com.V.FBasket.VnFBasket.constants.OrderStatus;
-import com.V.FBasket.VnFBasket.jpaRepository.OrderRepository;
-import com.V.FBasket.VnFBasket.jpaRepository.ProductsRepository;
-import com.V.FBasket.VnFBasket.jpaRepository.ReviewsRepository;
-import com.V.FBasket.VnFBasket.jpaRepository.UserRepository;
+import com.V.FBasket.VnFBasket.dao.OrderRepository;
+import com.V.FBasket.VnFBasket.dao.ProductsRepository;
+import com.V.FBasket.VnFBasket.dao.ReviewsRepository;
 import com.V.FBasket.VnFBasket.model.Products;
 import com.V.FBasket.VnFBasket.model.Reviews;
 import com.V.FBasket.VnFBasket.model.User;

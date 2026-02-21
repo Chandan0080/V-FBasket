@@ -1,12 +1,11 @@
 package com.V.FBasket.VnFBasket.util;
 
-import com.V.FBasket.VnFBasket.jpaRepository.UserRepository;
+import com.V.FBasket.VnFBasket.dao.UserRepository;
 import com.V.FBasket.VnFBasket.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;

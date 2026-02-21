@@ -1,17 +1,21 @@
 package com.V.FBasket.VnFBasket.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.V.FBasket.VnFBasket.dto.ProductRequest;
+import com.V.FBasket.VnFBasket.dto.ProductResponseDTO;
 import com.V.FBasket.VnFBasket.model.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import com.V.FBasket.VnFBasket.model.Products;
 import com.V.FBasket.VnFBasket.service.ProductService;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -20,20 +24,23 @@ public class ProductsController {
     @Autowired
     private ProductService pService;
 
-    @PostMapping("/addProduct")
-    public ResponseEntity<Products> addProduct(@RequestBody ProductRequest productRequest){
-        Products p = pService.addProducts(productRequest);
-        if(p!=null){
-            return ResponseEntity.ok(p);
-        } else {
-            return ResponseEntity.status(500).build();
+    @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Products> addProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
+        try {
+            Products p = pService.addProducts(productRequest, productRequest.getProductImage());
+            if (p != null) {
+                return ResponseEntity.ok(p);
+            } else {
+                return ResponseEntity.status(500).build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
     }
 
     @GetMapping("/getAllProducts")
-    public ResponseEntity<List<Products>> getAllProducts(){
-        List<Products> p1 = pService.getAllProducts();
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
+        List<ProductResponseDTO> p1 = pService.getAllProducts();
         if(p1!=null){
             return ResponseEntity.ok(p1);
         } else {
@@ -83,9 +90,10 @@ public class ProductsController {
         }
     }
 
-    @PutMapping("/updateProduct/{productId}")
-    public ResponseEntity<Products> updateProduct(@RequestBody Products product, @PathVariable long productId) {
-        Products updatedProduct = pService.updateProduct(product, productId);
+    @PutMapping(value = "/updateProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Products> updateProduct(@ModelAttribute ProductRequest productRequest)
+            throws IOException {
+        Products updatedProduct = pService.updateProduct(productRequest);
         if (updatedProduct != null) {
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } else {
