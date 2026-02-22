@@ -1,7 +1,7 @@
 package com.V.FBasket.VnFBasket.serviceImpl;
 
-import com.V.FBasket.VnFBasket.jpaRepository.AddressRepository;
-import com.V.FBasket.VnFBasket.jpaRepository.UserRepository;
+import com.V.FBasket.VnFBasket.dao.AddressRepository;
+import com.V.FBasket.VnFBasket.dao.UserRepository;
 import com.V.FBasket.VnFBasket.model.Address;
 import com.V.FBasket.VnFBasket.model.User;
 import com.V.FBasket.VnFBasket.service.AddressService;

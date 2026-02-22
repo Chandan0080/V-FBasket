@@ -6,8 +6,7 @@ import java.util.List;
 
 import com.V.FBasket.VnFBasket.constants.OrderStatus;
 import com.V.FBasket.VnFBasket.constants.PaymentStatus;
-import com.V.FBasket.VnFBasket.dto.OrderResponseDTO;
-import com.V.FBasket.VnFBasket.jpaRepository.*;
+import com.V.FBasket.VnFBasket.dao.*;
 import com.V.FBasket.VnFBasket.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private CartRepository cartRepository;
-    @Autowired
-    private ProductsRepository productRepository;
     @Autowired
     private AddressRepository addressRepository;
     @Autowired

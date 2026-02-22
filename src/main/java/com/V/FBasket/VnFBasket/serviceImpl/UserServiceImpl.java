@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.V.FBasket.VnFBasket.config.UserInfoUserDetails;
-import com.V.FBasket.VnFBasket.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.V.FBasket.VnFBasket.jpaRepository.UserRepository;
+import com.V.FBasket.VnFBasket.dao.UserRepository;
 import com.V.FBasket.VnFBasket.model.User;
 import com.V.FBasket.VnFBasket.service.UserService;
 

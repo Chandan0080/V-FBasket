@@ -1,18 +1,15 @@
 package com.V.FBasket.VnFBasket.dto;
 
+import jakarta.persistence.Column;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class ProductRequest {
-
+public class ProductResponseDTO {
     private Long productId;
     private String productName;
     private String productDescription;
     private double productPrice;
     private int stockQuantity;
-    private Long categoryId;
-    private MultipartFile productImage;
-
-    
+    private int productRating;
+    private String productImageUrl;
 }

@@ -1,6 +1,6 @@
 package com.V.FBasket.VnFBasket.serviceImpl;
 
-import com.V.FBasket.VnFBasket.jpaRepository.CategoriesRepository;
+import com.V.FBasket.VnFBasket.dao.CategoriesRepository;
 import com.V.FBasket.VnFBasket.model.Categories;
 import com.V.FBasket.VnFBasket.service.CategoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
