@@ -16,7 +16,7 @@ public interface ProductService {
     Products getProductById(Long productId);
     Products updateProduct(ProductRequest product) throws  IOException;
     boolean deleteProduct(Long productId);
-    List<Products> getProductsByCategoryName(String categoryName);
+    List<ProductResponseDTO> getProductsByCategoryName(String categoryName);
 
     
 } 

@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/vnfbasket/checkUserExists").permitAll()
                         .requestMatchers("/vnfbasket/user/login").permitAll()
                         .requestMatchers("/vnfbasket/getAllProducts").permitAll()
+                        .requestMatchers("/vnfbasket/getProductsByCategoryName").permitAll()
                         .requestMatchers("/vnfbasket/getProductsImageByProductId/**").permitAll()
                         .requestMatchers("/vnfbasket/**").authenticated())
                                 .sessionManagement( session -> session

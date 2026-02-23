@@ -147,9 +147,20 @@ public boolean deleteProduct(Long productId) {
 }
 
     @Override
-    public List<Products> getProductsByCategoryName(String categoryName) {
+    public List<ProductResponseDTO> getProductsByCategoryName(String categoryName) {
         try{
-            return productsRepo.findProductsByCategoryName(categoryName);
+            List<Products> products = productsRepo.findProductsByCategoryName(categoryName);
+            return products.stream().map(product -> {
+                ProductResponseDTO productResponse = new ProductResponseDTO();
+                productResponse.setProductId(product.getProductId());
+                productResponse.setProductName(product.getProductName());
+                productResponse.setProductDescription(product.getProductDescription());
+                productResponse.setProductPrice(product.getProductPrice());
+                productResponse.setStockQuantity(product.getStockQuantity());
+                productResponse.setProductRating(product.getProductRating());
+                productResponse.setProductImageUrl("http://localhost:8080/vnfbasket/getProductsImageByProductId/"+product.getProductId());
+                return productResponse;
+            }).toList();
         } catch (Exception e) {
             return null;
         }
