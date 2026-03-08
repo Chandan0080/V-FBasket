@@ -61,26 +61,11 @@ public class JWTUtil {
     }
 
     public String extractUsername(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
-    }
-
-    public Long extractUserId(String token){
-        return extractAllClaims(token).get("userId", Long.class);
+        return extractAllClaims(token).getSubject();
     }
 
     public boolean isTokenExpired(String token) {
-        Date expirationDate = Jwts.parser()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration();
-        return expirationDate.before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
