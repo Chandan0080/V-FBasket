@@ -60,5 +60,14 @@ public class AddressServiceImpl implements AddressService {
         return true;
     }
 
+    @Override
+    public Address getDefaultAddressByUserId(Long userId, boolean isDefault) {
+        Address defaultAddress = addressRepo.findAddressByUserIdandIsDefault(userId, isDefault);
+        if (defaultAddress != null) {
+            return defaultAddress;
+        }
+        return null;
+    }
+
 
 }

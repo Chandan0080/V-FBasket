@@ -53,12 +53,12 @@ public class AddressController {
         }
     }
 
-    @GetMapping("/getAddressByAddressId/{addressId}")
-    public ResponseEntity<Address> getAddressById(@PathVariable long addressId) {
+    @GetMapping("/getDefaultAddressByUserId")
+    public ResponseEntity<Address> getDefaultAddressByUserId(@RequestParam("isDefault") boolean isDefault) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfoUserDetails user = (UserInfoUserDetails) authentication.getPrincipal();
         Long userId = user.getUserId();
-        Address address = addressService.getAddressByIdAndUserId(addressId, userId);
+        Address address = addressService.getDefaultAddressByUserId(userId, isDefault);
         if (address != null) {
             return new ResponseEntity<>(address, HttpStatus.OK);
         } else {
