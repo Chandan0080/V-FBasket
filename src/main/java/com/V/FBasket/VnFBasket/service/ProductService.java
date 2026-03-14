@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ProductService {
     Products addProducts(ProductRequest productRequest, MultipartFile file) throws IOException;
     List<ProductResponseDTO> getAllProducts();
-    Products getProductByProductName(String productName);
+    ProductResponseDTO getProductByProductName(String productName);
     List<Products> getProductsByCategoryId(Long categoryId);
     Products getProductById(Long productId);
     Products updateProduct(ProductRequest product) throws  IOException;

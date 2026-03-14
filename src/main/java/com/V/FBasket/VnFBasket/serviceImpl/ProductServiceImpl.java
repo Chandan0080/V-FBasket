@@ -167,9 +167,18 @@ public boolean deleteProduct(Long productId) {
     }
 
     @Override
-    public Products getProductByProductName(String productName) {
+    public ProductResponseDTO getProductByProductName(String productName) {
     try {
-        return productsRepo.findByProductName(productName);
+        Products product = productsRepo.findByProductName(productName);
+        ProductResponseDTO productResponse = new ProductResponseDTO();
+        productResponse.setProductId(product.getProductId());
+        productResponse.setProductName(product.getProductName());
+        productResponse.setProductDescription(product.getProductDescription());
+        productResponse.setProductPrice(product.getProductPrice());
+        productResponse.setStockQuantity(product.getStockQuantity());
+        productResponse.setProductRating(product.getProductRating());
+        productResponse.setProductImageUrl("http://localhost:8080/vnfbasket/getProductsImageByProductId/"+product.getProductId());
+        return productResponse;
     } catch (Exception e) {
         return null;
     }
