@@ -57,11 +57,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        try{
+    public User updateUser(Long userId, User updatedUser) {
+        Optional<User> optionalUser = userRepo.findById(userId);
 
-        } catch(Exception e){
-            e.printStackTrace();
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+
+            return userRepo.save(existingUser);
+        }
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found with id: " + userId);
         }
         return null;
     }
