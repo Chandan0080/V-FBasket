@@ -69,8 +69,8 @@ public class ProductsController {
     }
 
     @GetMapping("/getProductByProductName/{name}")
-    public ResponseEntity<Products> getProductByProductName(@PathVariable String name){
-        Products p1 = pService.getProductByProductName(name);
+    public ResponseEntity<ProductResponseDTO> getProductByProductName(@PathVariable String name){
+        ProductResponseDTO p1 = pService.getProductByProductName(name);
         if(p1!=null){
             return ResponseEntity.ok(p1);
         } else {
@@ -101,9 +101,9 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/getProductsByCategoryName/{categoryName}")
-    public ResponseEntity<List<Products>> getProductsByCategoryName(@PathVariable String categoryName){
-        List<Products> p1 = pService.getProductsByCategoryName(categoryName);
+    @GetMapping("/getProductsByCategoryName")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategoryName(@RequestParam("categoryName") String categoryName){
+        List<ProductResponseDTO> p1 = pService.getProductsByCategoryName(categoryName);
         if(p1!=null){
             return ResponseEntity.ok(p1);
         } else {
