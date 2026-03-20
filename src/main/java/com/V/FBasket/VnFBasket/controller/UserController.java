@@ -117,4 +117,21 @@ public class UserController {
         }
     }
 
+    @PutMapping("/updateUserProfile")
+    public ResponseEntity<User> updateUserAccount(@RequestBody User user){
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserInfoUserDetails currentUser = (UserInfoUserDetails) authentication.getPrincipal();
+            Long userId = user != null ? currentUser.getUserId() : null;
+            User updatedUser = userService.updateUser(userId, user);
+            if(updatedUser != null){
+                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

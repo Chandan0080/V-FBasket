@@ -12,4 +12,5 @@ public interface AddressService {
     Address getAddressByIdAndUserId(Long addressId, Long userId);
     Address updateAddress(Address address, Long addressId);
     boolean deleteAddress(Long addressId);
+    Address getDefaultAddressByUserId(Long userId, boolean isDefault);
 }
