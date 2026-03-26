@@ -49,8 +49,8 @@ public class ProductsController {
     }
 
     @GetMapping("/getProductsById/{id}")
-    public ResponseEntity<Products> getProductsById(@PathVariable Long id){
-        Products p1 = pService.getProductById(id);
+    public ResponseEntity<ProductResponseDTO> getProductsById(@PathVariable Long id){
+        ProductResponseDTO p1 = pService.getProductById(id);
         if(p1!=null){
             return ResponseEntity.ok(p1);
         } else {
@@ -80,7 +80,7 @@ public class ProductsController {
 
     @DeleteMapping("/deleteProduct/{productId}")
     public ResponseEntity<Products> deleteProduct(@PathVariable long productId) {
-        Products product = pService.getProductById(productId);
+        ProductResponseDTO product = pService.getProductById(productId);
         if(product!=null && pService.deleteProduct(
                 productId)){
             return new ResponseEntity<>(HttpStatus.OK);
@@ -91,14 +91,29 @@ public class ProductsController {
     }
 
     @PutMapping(value = "/updateProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Products> updateProduct(@ModelAttribute ProductRequest productRequest)
+    public ResponseEntity<ProductResponseDTO> updateProduct(@ModelAttribute ProductRequest productRequest)
             throws IOException {
         Products updatedProduct = pService.updateProduct(productRequest);
         if (updatedProduct != null) {
-            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+            return new ResponseEntity<ProductResponseDTO>(mapToDTO(updatedProduct), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private ProductResponseDTO mapToDTO(Products product) {
+        if (product == null) {
+            return null;
+        }
+        ProductResponseDTO dto = new ProductResponseDTO();
+        dto.setProductId(product.getProductId());
+        dto.setProductName(product.getProductName());
+        dto.setProductDescription(product.getProductDescription());
+        dto.setProductPrice(product.getProductPrice());
+        dto.setStockQuantity(product.getStockQuantity());
+        dto.setProductRating(product.getProductRating());
+        dto.setProductImageUrl("http://localhost:8080/vnfbasket/getProductsImageByProductId/" + product.getProductId());
+        return dto;
     }
 
     @GetMapping("/getProductsByCategoryName")

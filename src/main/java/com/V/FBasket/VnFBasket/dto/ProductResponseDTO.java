@@ -12,4 +12,5 @@ public class ProductResponseDTO {
     private int stockQuantity;
     private int productRating;
     private String productImageUrl;
+    private long categoryId;
 }

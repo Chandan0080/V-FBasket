@@ -91,12 +91,28 @@ public List<Products> getProductsByCategoryId(Long categoryId) {
 }
 
 @Override
-public Products getProductById(Long productId) {
-    try {
-        return productsRepo.findById(productId).get();
-    } catch (Exception e) {
-        return null;
-    }
+public ProductResponseDTO getProductById(Long productId) {
+
+    Products product = productsRepo.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+
+    ProductResponseDTO productResponse = new ProductResponseDTO();
+
+    productResponse.setProductId(product.getProductId());
+    productResponse.setProductName(product.getProductName());
+    productResponse.setProductDescription(product.getProductDescription());
+    productResponse.setProductPrice(product.getProductPrice());
+    productResponse.setStockQuantity(product.getStockQuantity());
+    productResponse.setProductRating(product.getProductRating());
+
+    productResponse.setProductImageUrl(
+        "http://localhost:8080/vnfbasket/getProductsImageByProductId/" + product.getProductId()
+    );
+
+    
+    productResponse.setCategoryId(product.getCategory().getCategoryId());
+
+    return productResponse;
 }
 
 @Override
@@ -109,6 +125,9 @@ public Products updateProduct(ProductRequest product) throws IOException {
         existingProduct.setProductDescription(product.getProductDescription());
         existingProduct.setProductPrice(product.getProductPrice());
         existingProduct.setStockQuantity(product.getStockQuantity());
+            Categories category = categoryryRepo.findById(product.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
+            existingProduct.setCategory(category);
+
 
 
 
