@@ -13,7 +13,7 @@ public interface ProductService {
     List<ProductResponseDTO> getAllProducts();
     ProductResponseDTO getProductByProductName(String productName);
     List<Products> getProductsByCategoryId(Long categoryId);
-    Products getProductById(Long productId);
+    ProductResponseDTO getProductById(Long productId);
     Products updateProduct(ProductRequest product) throws  IOException;
     boolean deleteProduct(Long productId);
     List<ProductResponseDTO> getProductsByCategoryName(String categoryName);
