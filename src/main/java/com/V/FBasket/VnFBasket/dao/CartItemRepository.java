@@ -1,5 +1,6 @@
 package com.V.FBasket.VnFBasket.dao;
 
+import com.V.FBasket.VnFBasket.model.Cart;
 import com.V.FBasket.VnFBasket.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -52,5 +53,6 @@ public interface CartItemRepository  extends JpaRepository<CartItem,Long> {
        WHERE ci.cart.cartId = :cartId
        """)
     void deleteAllByCartCartId(@Param("cartId") Long cartId);
+
 
 }

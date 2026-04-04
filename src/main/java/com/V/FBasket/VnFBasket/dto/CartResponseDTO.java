@@ -1,9 +1,8 @@
 package com.V.FBasket.VnFBasket.dto;
 
-import com.V.FBasket.VnFBasket.model.CartItem;
+
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

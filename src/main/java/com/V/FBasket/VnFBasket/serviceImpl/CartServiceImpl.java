@@ -15,6 +15,7 @@ import com.V.FBasket.VnFBasket.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Base64;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,112 +24,132 @@ import java.util.List;
 @Transactional
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ProductsRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CartItemRepository cartItemRepository;
+        @Autowired
+        private CartRepository cartRepository;
+        @Autowired
+        private ProductsRepository productRepository;
+        @Autowired
+        private UserRepository userRepository;
+        @Autowired
+        private CartItemRepository cartItemRepository;
 
-    @Override
-    public void addToCart(Long userId, AddToCartRequestDTO addToCartRequestDTO) {
-        Cart cart = cartRepository.findByUserUserId(userId)
-                .orElseGet(() -> createCart(userId));
+        @Override
+        public void addToCart(Long userId, AddToCartRequestDTO addToCartRequestDTO) {
 
-        Products product = productRepository.findById(addToCartRequestDTO.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                Cart cart = cartRepository.findByUserUserId(userId)
+                                .orElseGet(() -> createCart(userId));
 
-        CartItem cartItem = cartItemRepository
-                .findByCartCartIdAndProductProductId(cart.getCartId(), addToCartRequestDTO.getProductId())
-                .orElse(null);
+                Products product = productRepository.findById(addToCartRequestDTO.getProductId())
+                                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        if (cartItem != null) {
-            cartItem.setQuantity(cartItem.getQuantity() + addToCartRequestDTO.getQuantity());
-            cartItem.setTotalPrice(product.getProductPrice() * cartItem.getQuantity());
-        } else {
-            CartItem newItem = new CartItem();
-            newItem.setCart(cart);
-            newItem.setProduct(product);
-            newItem.setQuantity(addToCartRequestDTO.getQuantity());
-            newItem.setTotalPrice(product.getProductPrice() * addToCartRequestDTO.getQuantity());
-            cart.getCartItems().add(newItem);
+                CartItem cartItem = cartItemRepository
+                                .findByCartCartIdAndProductProductId(cart.getCartId(),
+                                                addToCartRequestDTO.getProductId())
+                                .orElse(null);
+
+                int newQuantity = addToCartRequestDTO.getQuantity();
+
+                if (cartItem != null) {
+                        newQuantity = cartItem.getQuantity() + addToCartRequestDTO.getQuantity(); // 🔥 FIX
+                }
+
+                if (newQuantity > product.getStockQuantity()) {
+                        throw new RuntimeException(
+                                        "Only " + product.getStockQuantity() + " items available");
+                }
+
+                if (cartItem != null) {
+                        cartItem.setQuantity(newQuantity);
+                        cartItem.setTotalPrice(product.getProductPrice() * newQuantity);
+                } else {
+                        CartItem newItem = new CartItem();
+                        newItem.setCart(cart);
+                        newItem.setProduct(product);
+                        newItem.setQuantity(addToCartRequestDTO.getQuantity());
+                        newItem.setTotalPrice(product.getProductPrice() * addToCartRequestDTO.getQuantity());
+                        cart.getCartItems().add(newItem);
+                }
+
+                cartRepository.save(cart);
+
         }
 
-        cartRepository.save(cart);
+        @Override
+        public void updateCartItem(Long userId, Long productId, Integer quantity) {
+                CartItem cartItem = cartItemRepository
+                                .findByCartUserUserIdAndProductProductId(userId, productId)
+                                .orElseThrow(() -> new RuntimeException("Item not found"));
+                Products product = productRepository.findById(productId)
+                                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-    }
+                if (quantity > product.getStockQuantity()) {
+                        throw new RuntimeException("Not enough stock available");
+                }
 
-    @Override
-    public void updateCartItem(Long userId, Long productId, Integer quantity) {
-        CartItem cartItem = cartItemRepository
-                .findByCartUserUserIdAndProductProductId(userId, productId)
-                .orElseThrow(() -> new RuntimeException("Item not found"));
+                cartItem.setQuantity(quantity);
+                cartItem.setTotalPrice(cartItem.getProduct().getProductPrice() * quantity);
+                cartItemRepository.save(cartItem);
 
-        cartItem.setQuantity(quantity);
-        cartItem.setTotalPrice(cartItem.getProduct().getProductPrice() * quantity);
-
-    }
-
-    @Override
-    public void removeFromCart(Long userId, Long productId) {
-        cartItemRepository.deleteByCartUserUserIdAndProductProductId(userId, productId);
-
-    }
-
-    @Override
-    public void clearCart(Long userId) {
-        cartItemRepository.deleteAllByCartUserUserId(userId);
-
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public CartResponseDTO getCart(Long userId) {
-
-        Cart cart = cartRepository.findByUserUserId(userId)
-                .orElse(null);
-
-        // If cart does not exist → return empty cart response
-        if (cart == null) {
-            return new CartResponseDTO(
-                    null,                     // no cart yet
-                    new ArrayList<>(),         // empty items
-                    0.0                       // total = 0
-            );
         }
 
-        List<CartItemResponseDTO> items = cart.getCartItems()
+        @Override
+        public void removeFromCart(Long userId, Long productId) {
+                cartItemRepository.deleteByCartUserUserIdAndProductProductId(userId, productId);
+
+        }
+
+        @Override
+        public void clearCart(Long userId) {
+                cartItemRepository.deleteAllByCartUserUserId(userId);
+
+        }
+
+        @Override
+        @Transactional(readOnly = true)
+        public CartResponseDTO getCart(Long userId) {
+
+                Cart cart = cartRepository.findByUserUserId(userId)
+                                .orElse(null);
+
+                
+                if (cart == null) {
+                        return new CartResponseDTO(
+                                        null, 
+                                        new ArrayList<>(), 
+                                        0.0 
+                        );
+                }
+
+                
+               List<CartItemResponseDTO> items = cart.getCartItems()
                 .stream()
                 .map(item -> new CartItemResponseDTO(
                         item.getProduct().getProductId(),
                         item.getProduct().getProductName(),
                         item.getProduct().getProductPrice(),
                         item.getQuantity(),
-                        item.getTotalPrice()
+                        item.getTotalPrice(),
+                        "http://localhost:8080/vnfbasket/getProductsImageByProductId/"+item.getProduct().getProductId(),
+                        item.getProduct().getStockQuantity()
                 ))
                 .toList();
 
-        Double total = items.stream()
-                .mapToDouble(CartItemResponseDTO::getTotalPrice)
-                .sum();
 
-        return new CartResponseDTO(
-                cart.getCartId(),
-                items,
-                total
-        );
-    }
+                Double total = items.stream()
+                                .mapToDouble(CartItemResponseDTO::getTotalPrice)
+                                .sum();
 
-    private Cart createCart(Long userId) {
+                return new CartResponseDTO(cart.getCartId(),items,total);
+        }
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        private Cart createCart(Long userId) {
 
-        Cart cart = new Cart();
-        cart.setUser(user);
+                User user = userRepository.findById(userId)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return cartRepository.save(cart);
-    }
+                Cart cart = new Cart();
+                cart.setUser(user);
+
+                return cartRepository.save(cart);
+        }
 }

@@ -1,6 +1,5 @@
 package com.V.FBasket.VnFBasket.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
