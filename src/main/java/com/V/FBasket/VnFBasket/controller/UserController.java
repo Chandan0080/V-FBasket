@@ -2,10 +2,14 @@ package com.V.FBasket.VnFBasket.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.V.FBasket.VnFBasket.config.UserInfoUserDetails;
 import com.V.FBasket.VnFBasket.dto.LoginRequest;
 import com.V.FBasket.VnFBasket.dto.LoginResponse;
+import com.V.FBasket.VnFBasket.dto.SendEmailRequestDTO;
+import com.V.FBasket.VnFBasket.util.EmailClient;
 import com.V.FBasket.VnFBasket.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,9 +38,30 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private EmailClient emailClient;
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User registerUser = userService.registerUser(user);
+
+        try {
+            SendEmailRequestDTO emailRequest = SendEmailRequestDTO.builder()
+                    .requestId(UUID.randomUUID().toString())
+                    .to(registerUser.getEmail())
+                    .templateCode("user-registration")
+                    .correlationId("USERREG" + registerUser.getUserId())
+                    .variables(Map.of(
+                            "name", registerUser.getFirstName() + " " + registerUser.getLastName(),
+                            "email", registerUser.getEmail()
+                    ))
+                    .build();
+
+            emailClient.sendEmail(emailRequest);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         if(user != null){
             return new ResponseEntity<>(registerUser, HttpStatus.CREATED);
         }
